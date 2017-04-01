@@ -1,0 +1,28 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>User Page</title>
+</head>
+<body>
+    <h1>Homepage of {{user}}</h1>
+    <a href="{{url_for('passage.home')}}"><button>index</button></a>
+    <hr></hr>
+    {% for post in posts.items %}
+    <h1>{{post.title}}</h1>
+    <p>{{post.text}}</p>
+    <p>{{post.p_date}} {{user}}
+    {% if g.current_user.id==post.userid %}
+        <a href="{{url_for('passage.delete',id=post.id)}}" id="delete">delete</a>
+    {% endif %}
+    <hr></hr>
+    </p>
+    {% endfor %}
+    {% if page!=1 %}
+    <a href="{{url_for('user.private',uid=posts.items[0].userid,page=page-1)}}"><button>previous</button>
+    {% endif %}
+    {% if page!=maxpage %}{% if maxpage!=0 %}
+    <a href="{{url_for('user.private',uid=posts.items[0].userid,page=page+1)}}"><button>next</button>
+    {% endif %}{% endif %}
+</body>
+</html>

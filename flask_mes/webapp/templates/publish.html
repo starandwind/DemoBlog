@@ -1,0 +1,24 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>publish</title>
+</head>
+<body>
+    {% if g.current_user==None %}
+    {{ abort(403) }}
+    {% endif %}
+    <form method="POST" action="{{ url_for('passage.publish') }}">
+        Title:<br>
+        {{form.title(class_='form-control')}}<br>
+        Text: <br>
+        {{form.text(class_='form-control')}}<br>
+        <input type="submit" value="submit" id="submit">
+    </form>
+    {% if form.text.errors %}
+    {% for e in form.text.errors %}
+    <p class="help-block">{{e}}</p>
+    {% endfor %}
+    {% endif %}
+</body>
+</html>

@@ -1,0 +1,40 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>A demo blog</title>
+</head>
+<body>
+    <h1>A demo blog</h1>
+    {% if g.current_user==None %}
+    <a href="{{url_for('user.reg')}}"><button id="register">register</button></a>
+    <a href="{{url_for('user.login')}}"><button id="login">log in</button></a>
+    {% else %}
+    <h2>Welcome,{{g.current_user.username}}!</h2>
+    <h2>You can now:</h2>
+    <a href="{{url_for('passage.publish')}}"><button id="publish">publish</button></a>
+    <a href="{{url_for('user.logout')}}"><button id="logout">log out</button></a>
+    <a href="{{url_for('user.private',uid=g.current_user.id,page=1)}}"><button id="mypage">my passage</button></a>
+    <hr></hr>
+    {% endif %}
+    {% for post in posts.items %}
+    <h1>{{post.title}}</h1>
+    <p>{{post.text}}</p>
+    <p>
+        {{post.p_date}}
+        <a href="{{url_for('user.private',uid=post.userid,page=1)}}">{{users[loop.index-1]}}</a>
+        {% if g.current_user.id==post.userid %}
+        <a href="{{url_for('passage.delete',id=post.id)}}" id="delete">delete</a>
+        {% endif %}
+        <hr></hr>
+    </p>
+    {% endfor %}
+    {% if page!=1 %}
+    
+    <a href="{{url_for('passage.home',page=page-1)}}"><button>previous</button>
+    {% endif %}
+    {% if page!=maxpage %}{% if maxpage!=0 %}
+    <a href="{{url_for('passage.home',page=page+1)}}"><button>next</button>
+    {% endif %}{% endif %}
+</body>
+</html>
